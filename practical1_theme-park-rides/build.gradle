@@ -15,8 +15,9 @@ tasks.register('generateDesc', Copy){
         )
 }
 
-tasks.register('zipDesc', Zip){
-    from(layout.buildDirectory.dir("descriptions"))
-    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
-    archiveFileName.set("descriptions.zip")
+tasks.register('zipDesc', Zip) {
+    dependsOn 'generateDesc'
+    from layout.buildDirectory.dir('descriptions')
+    destinationDirectory = layout.buildDirectory.dir('distributions')
+    archiveFileName = 'descriptions.zip'
 }
