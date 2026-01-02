@@ -1,0 +1,22 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins{
+    id 'base'
+}
+
+defaultTasks 'generateDesc'
+
+tasks.register('generateDesc', Copy){
+    from 'descriptions'
+    into "$buildDir/descriptions"
+    filter(
+        ReplaceTokens,
+        tokens: [THEME_PARK_NAME: "Imagica"]
+        )
+}
+
+tasks.register('zipDesc', Zip){
+    from(layout.buildDirectory.dir("descriptions"))
+    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
+    archiveFileName.set("descriptions.zip")
+}

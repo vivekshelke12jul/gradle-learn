@@ -1,3 +1,7 @@
+plugins {
+    id 'base'
+}
+
 tasks.register('copyTask', Copy){
     from 'message.txt'
     into "$buildDir"
