@@ -16,7 +16,7 @@ tasks.register('generateDesc', Copy){
 }
 
 tasks.register('zipDesc', Zip) {
-    dependsOn 'generateDesc'
+    dependsOn tasks.named('generateDesc') // tasks.generateDesc , tasks.named('generateDesc') , tasks.getByName('generateDesc') are all valid
     from layout.buildDirectory.dir('descriptions')
     destinationDirectory = layout.buildDirectory.dir('distributions')
     archiveFileName = 'descriptions.zip'
