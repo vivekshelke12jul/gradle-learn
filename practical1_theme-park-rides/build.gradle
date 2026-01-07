@@ -6,7 +6,7 @@ plugins{
 
 defaultTasks 'generateDesc'
 
-tasks.register('generateDesc', Copy){
+TaskProvider<Copy> generateDescTask = tasks.register('generateDesc', Copy){
     from 'descriptions'
     into "$buildDir/descriptions"
     filter(
@@ -16,8 +16,13 @@ tasks.register('generateDesc', Copy){
 }
 
 tasks.register('zipDesc', Zip) {
-    dependsOn tasks.named('generateDesc') // tasks.generateDesc , tasks.named('generateDesc') , tasks.getByName('generateDesc') are all valid
-    from layout.buildDirectory.dir('descriptions')
+    dependsOn generateDescTask // generateDesc , tasks.generateDesc , tasks.named('generateDesc') , tasks.getByName('generateDesc') are all valid
+    //dependsOn generateDescTask - can also use the TaskProvider variable defined above
+    from generateDesc // using output of the generateDesc task as input
+    // from layout.buildDirectory.dir('descriptions')
     destinationDirectory = layout.buildDirectory.dir('distributions')
     archiveFileName = 'descriptions.zip'
 }
+
+// points to revise 
+// dependsOn, finalizedBy, mustRunAfter
