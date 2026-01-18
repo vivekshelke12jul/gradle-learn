@@ -1,3 +1,38 @@
 plugins {
     id 'java'
 }
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+tasks.named('jar'){
+    manifest {
+        attributes 'Main-Class': 'com.gradlehero.themepark.Main'
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 25
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // JUnit 6 BOM ensures all modules are compatible
+    testImplementation platform('org.junit:junit-bom:6.0.2')
+
+    // JUnit Jupiter API + Engine
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+}
+
+tasks.withType(Test).configureEach {
+    useJUnitPlatform()
+}

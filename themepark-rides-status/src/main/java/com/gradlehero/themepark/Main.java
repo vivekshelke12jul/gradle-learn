@@ -21,7 +21,7 @@ public class Main {
 
     }
 
-    private static String getExample(String category) {
+    public static String getExample(String category) {
         List<String> numbers = readFile(String.format("%s.txt", category));
         return String.join(", ", numbers);
     }
