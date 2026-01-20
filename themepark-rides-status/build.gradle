@@ -1,7 +1,10 @@
 plugins {
-    id 'java'
     id 'application'
+    id 'maven-publish'
 }
+
+group 'com.gradlehero'
+version '1.0.0-SNAPSHOT'
 
 application {
     mainClass = 'com.gradlehero.themepark.Main'
@@ -22,8 +25,8 @@ tasks.named('jar'){
 tasks.register('runJar', JavaExec) {
 //    mainClass = 'com.gradlehero.themepark.Main'
 //    classpath = sourceSets.main.runtimeClasspath
-     classpath = tasks.named('jar').map { it.outputs }
-    args = 'odd'
+     classpath tasks.named('jar').map { it.outputs }
+    args 'odd'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -47,4 +50,12 @@ dependencies {
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
 }
